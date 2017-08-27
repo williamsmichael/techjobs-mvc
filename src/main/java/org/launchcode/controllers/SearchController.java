@@ -4,7 +4,6 @@ import org.launchcode.models.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -28,12 +27,15 @@ public class SearchController {
     @RequestMapping(value = "results")
     public String results(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
 
-        if (searchType.equals("all") && searchTerm.equals("")) {
+        if (searchTerm.equals("")) {
             model.addAttribute("jobs", JobData.findAll());
+            model.addAttribute("total", JobData.findAll().size());
         } else if (searchType.equals("all")) {
             model.addAttribute("jobs", JobData.findByValue(searchTerm));
+            model.addAttribute("total", JobData.findByValue(searchTerm).size());
         } else {
             model.addAttribute("jobs", JobData.findByColumnAndValue(searchType, searchTerm));
+            model.addAttribute("total", JobData.findByColumnAndValue(searchType, searchTerm).size());
         }
 
         model.addAttribute("columns", ListController.columnChoices);
