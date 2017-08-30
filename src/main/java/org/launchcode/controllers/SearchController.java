@@ -29,13 +29,10 @@ public class SearchController {
 
         if (searchTerm.equals("")) {
             model.addAttribute("jobs", JobData.findAll());
-            model.addAttribute("total", JobData.findAll().size());
         } else if (searchType.equals("all")) {
             model.addAttribute("jobs", JobData.findByValue(searchTerm));
-            model.addAttribute("total", JobData.findByValue(searchTerm).size());
         } else {
             model.addAttribute("jobs", JobData.findByColumnAndValue(searchType, searchTerm));
-            model.addAttribute("total", JobData.findByColumnAndValue(searchType, searchTerm).size());
         }
 
         model.addAttribute("columns", ListController.columnChoices);
